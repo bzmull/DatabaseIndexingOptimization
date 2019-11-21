@@ -18,22 +18,8 @@ where emp1.Manager = emp2.ID
 and emp1.salary >= emp2.salary + 50;
 drop index ind on employee;
 
--- b. Find the average salary earned by people taking the course of prof1038
-select avg(salary) PART_B
-from course, employee
-where course.prof = 'prof1038'
-and course.EmpID = employee.ID;
-
--- part (b) indexed
-create index ind on course(prof, empid);
-select avg(salary) PART_B_INDEXED
-from course, employee
-where course.prof = 'prof1038'
-and course.EmpID = employee.ID;
-drop index ind on course;
-
--- c. For those departments in which more than one employee takes courses, find the average salary by department.
-select department, avg(salary) PART_C
+-- b. For those departments in which more than one employee takes courses, find the average salary by department.
+select department, avg(salary) PART_B
 from employee as tab1
 join (select department dept
 	from course, employee
@@ -43,9 +29,9 @@ join (select department dept
 on tab1.department = tab2.dept
 group by department;
 
--- part (c) indexed
+-- part (b) indexed
 create index ind on employee(ID, department, salary);
-select department, avg(salary) PART_C_INDEXED
+select department, avg(salary) PART_B_INDEXED
 from employee as tab1
 join (select department dept
 	from course, employee
@@ -55,5 +41,23 @@ join (select department dept
 on tab1.department = tab2.dept
 group by department;
 drop index ind on employee;
+
+-- c. Find the average salary earned by people taking the course of prof1038
+select avg(salary) 
+from Employee emp
+RIGHT JOIN (select distinct EmpID 
+			from course 
+            where Prof = 'prof1038') cor
+ON emp.ID = cor.EmpID;
+
+-- part (c) indexed
+create index ind on course(prof, empid);
+select avg(salary) 
+from Employee emp
+RIGHT JOIN (select distinct EmpID 
+			from course 
+            where Prof = 'prof1038') cor
+ON emp.ID = cor.EmpID;
+drop index ind on course;
 
 show profiles
