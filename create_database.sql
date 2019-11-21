@@ -4,6 +4,7 @@ use `muller_db2`;
 
 create table Employee(ID int, Name varchar(20), Salary int, Manager int, Department varchar(20)); 
 create table Course(EmpID int, CourseID int, Prof varchar(20), Grade int);
+create table Employee_q3(ID int, Name varchar(20), Salary int, Manager int, Department varchar(20)); 
 
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/emp_database'
 INTO TABLE Employee FIELDS TERMINATED BY '|'
