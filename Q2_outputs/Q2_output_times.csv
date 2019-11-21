@@ -1,0 +1,52 @@
+Query_ID,Duration,Query
+186,0.00011100,"SHOW WARNINGS"
+187,552.36475450,"select count(*) PART_A
+from employee emp1, employee emp2
+where emp1.Manager = emp2.ID
+and emp1.Salary >= emp2.Salary + 50
+LIMIT 0, 1000"
+188,0.53460975,"create index ind on employee(manager, ID, Salary)"
+189,0.29041600,"select count(*) PART_A_INDEXED
+from employee emp1, employee emp2
+where emp1.Manager = emp2.ID
+and emp1.salary >= emp2.salary + 50
+LIMIT 0, 1000"
+190,0.00999025,"drop index ind on employee"
+191,39.58312050,"select department, avg(salary) PART_B
+from employee as tab1
+join (select department dept
+	from course, employee
+	where course.EmpID = employee.ID
+	group by department
+	having count(*) > 1) as tab2
+on tab1.department = tab2.dept
+group by department
+LIMIT 0, 1000"
+192,0.23187800,"create index ind on employee(ID, department, salary)"
+193,0.31046600,"select department, avg(salary) PART_B_INDEXED
+from employee as tab1
+join (select department dept
+	from course, employee
+	where course.EmpID = employee.ID
+	group by department
+	having count(*) > 1) as tab2
+on tab1.department = tab2.dept
+group by department
+LIMIT 0, 1000"
+194,0.01064500,"drop index ind on employee"
+195,0.10860825,"select avg(salary) 
+from Employee emp
+RIGHT JOIN (select distinct EmpID 
+			from course 
+            where Prof = 'prof1038') cor
+ON emp.ID = cor.EmpID
+LIMIT 0, 1000"
+196,0.06034775,"create index ind on course(prof, empid)"
+197,0.36757900,"select avg(salary) 
+from Employee emp
+RIGHT JOIN (select distinct EmpID 
+			from course 
+            where Prof = 'prof1038') cor
+ON emp.ID = cor.EmpID
+LIMIT 0, 1000"
+198,0.02304200,"drop index ind on course"
